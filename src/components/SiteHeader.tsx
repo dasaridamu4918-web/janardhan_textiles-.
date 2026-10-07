@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CartDrawer } from "./CartDrawer";
 
 export function SiteHeader() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const { count, setOpen } = useCart();
   const qc = useQueryClient();
   const navigate = useNavigate();
@@ -25,9 +25,6 @@ export function SiteHeader() {
         <Link to="/" className="font-display text-2xl font-semibold tracking-wide text-primary">{DEFAULT_BRAND}</Link>
         <nav className="flex flex-wrap items-center gap-5 text-sm uppercase tracking-wider">
           <Link to="/" hash="catalog" className="hover:text-primary">Shop</Link>
-          {user && <Link to="/orders" className="hover:text-primary" activeProps={{ className: "text-primary" }}>My Orders</Link>}
-          {user && <Link to="/account" className="hover:text-primary" activeProps={{ className: "text-primary" }}>Account</Link>}
-          {isAdmin && <Link to="/admin" className="hover:text-primary" activeProps={{ className: "text-primary" }}>Admin</Link>}
           <Link to="/studio" className="hover:text-primary" activeProps={{ className: "text-primary" }}>Studio</Link>
           {user ? <button onClick={signOut} className="uppercase hover:text-primary">Sign out</button>
             : <Link to="/auth" className="hover:text-primary">Sign in</Link>}

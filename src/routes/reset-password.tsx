@@ -16,9 +16,9 @@ function Reset() {
   const [pw, setPw] = useState(""); const navigate = useNavigate();
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pw.length < 8) return toast.error("Use at least 8 characters.");
+    if (pw.length < 8) { toast.error("Use at least 8 characters."); return; }
     const { error } = await supabase.auth.updateUser({ password: pw });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Password updated."); navigate({ to: "/" });
   };
   return (
