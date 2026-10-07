@@ -10,7 +10,7 @@ import { useAuth } from "@/lib/store";
 const safePath = (p?: string) => (p && p.startsWith("/") && !p.startsWith("//") ? p : "/");
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({ redirect: typeof s.redirect === "string" ? s.redirect : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ redirect: typeof s["redirect"] === "string" ? (s["redirect"] as string) : undefined }),
   head: () => ({ meta: [
     { title: "Sign in — Janardhan Textile" }, { name: "description", content: "Sign in or create your Janardhan Textile account." },
     { property: "og:title", content: "Sign in — Janardhan Textile" }, { property: "og:description", content: "Sign in to shop and track your saree orders." },
