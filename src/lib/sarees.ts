@@ -1,8 +1,4 @@
 import { SAREES_RAW } from "./sarees-raw";
-import s1 from "@/assets/saree-1.jpg";
-import s2 from "@/assets/saree-2.jpg";
-import s3 from "@/assets/saree-3.jpg";
-import hero from "@/assets/hero.jpg";
 
 export const DEFAULT_BRAND = "Janardhan Textile";
 
@@ -15,7 +11,8 @@ export const COLOR_HEX: Record<string, string> = {
   "Peacock Blue": "#0d6b8c", "Emerald Green": "#167a4a", Maroon: "#6b1420",
 };
 
-const PHOTO: Record<string, string> = { Maroon: s1, "Cobalt Blue": s2, "Mustard Yellow": s3, Magenta: hero };
+const PHOTOS = import.meta.glob("../assets/sarees/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const photoFor = (id: number) => Object.entries(PHOTOS).find(([k]) => k.endsWith(`/${id}.jpg`))?.[1];
 
 const TEXTURE: Record<string, string> = {
   "Soft Silk": "smooth, lustrous soft silk", "Linen Cotton": "breathable linen-cotton weave",
@@ -45,7 +42,7 @@ export const SAREES: Saree[] = SAREES_RAW.map((r) => ({
   title: `${r.color} - ${r.style} - ${r.fabric} Saree with ${r.pattern}`,
   price: (BASE_PRICE[r.fabric] ?? 1499) + (r.id % 5) * 100,
   hex: COLOR_HEX[r.color] ?? "#888",
-  photo: PHOTO[r.color],
+  photo: photoFor(r.id),
   texture: TEXTURE[r.fabric] ?? "fine handloom weave",
 }));
 
