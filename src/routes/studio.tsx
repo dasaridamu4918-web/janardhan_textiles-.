@@ -37,7 +37,7 @@ function Studio() {
   const [brand, setBrand] = useState(DEFAULT_BRAND);
   const [a, setA] = useState(1);
   const [b, setB] = useState(2);
-  const sa = SAREES[a - 1], sb = SAREES[b - 1];
+  const sa = SAREES[a - 1]!, sb = SAREES[b - 1]!;
   const pick = (v: number, set: (n: number) => void) => (
     <select value={v} onChange={(e) => set(+e.target.value)} className="w-full border bg-card px-3 py-2">
       {SAREES.map((s) => <option key={s.id} value={s.id}>#{s.id} {s.color} · {s.style} · {s.fabric}</option>)}

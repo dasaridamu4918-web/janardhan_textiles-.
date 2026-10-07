@@ -37,7 +37,7 @@ const BASE_PRICE: Record<string, number> = {
 
 export type Saree = {
   id: number; style: string; fabric: string; color: string; pattern: string; occasion: string;
-  title: string; price: number; hex: string; photo?: string; texture: string;
+  title: string; price: number; hex: string; photo?: string | undefined; texture: string;
 };
 
 export const SAREES: Saree[] = SAREES_RAW.map((r) => ({
