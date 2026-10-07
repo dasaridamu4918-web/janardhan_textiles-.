@@ -11,7 +11,7 @@ export const COLOR_HEX: Record<string, string> = {
   "Peacock Blue": "#0d6b8c", "Emerald Green": "#167a4a", Maroon: "#6b1420",
 };
 
-const PHOTOS = import.meta.glob("@/assets/sarees/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const PHOTOS = import.meta.glob("../assets/sarees/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
 const photoFor = (id: number) => Object.entries(PHOTOS).find(([k]) => k.endsWith(`/${id}.jpg`))?.[1];
 
 const TEXTURE: Record<string, string> = {
