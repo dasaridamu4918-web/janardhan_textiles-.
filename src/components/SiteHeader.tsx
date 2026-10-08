@@ -27,7 +27,7 @@ export function SiteHeader() {
           <Link to="/" hash="catalog" className="hover:text-primary">Shop</Link>
           <Link to="/studio" className="hover:text-primary" activeProps={{ className: "text-primary" }}>Studio</Link>
           {user ? <button onClick={signOut} className="uppercase hover:text-primary">Sign out</button>
-            : <Link to="/auth" className="hover:text-primary">Sign in</Link>}
+            : <Link to="/auth" search={{ redirect: undefined }} className="hover:text-primary">Sign in</Link>}
           <button aria-label="Open bag" onClick={() => setOpen(true)} className="relative">
             <ShoppingBag className="h-5 w-5" />
             {count > 0 && <span className="absolute -right-2 -top-2 rounded-full bg-primary px-1.5 text-[10px] text-primary-foreground">{count}</span>}
