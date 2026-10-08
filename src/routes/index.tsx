@@ -54,7 +54,7 @@ function Index() {
     <div className="min-h-screen">
       <SiteHeader />
       <section className="relative">
-        <img src={hero} alt="Model in magenta Kanjivaram silk saree" width={1600} height={1008} className="h-[52vh] w-full object-cover object-[30%_center] md:h-[78vh] md:object-right" />
+        <img src={hero} alt="Model in magenta Kanjivaram silk saree" width={1600} height={1008} className="h-[52vh] w-full object-cover object-[68%_center] md:h-[78vh] md:object-right" />
         <div className="md:absolute md:inset-0 md:flex md:items-center">
           <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:py-0">
             <div className="max-w-md">

@@ -3,7 +3,7 @@ import { type Product, productImage, productHex, rupees } from "@/lib/store";
 export function SareeCard({ p, onOpen }: { p: Product; onOpen: () => void }) {
   const img = productImage(p);
   return (
-    <button onClick={onOpen} className="group min-w-0 text-left">
+    <button onClick={onOpen} className="group flex min-w-0 flex-col justify-start text-left">
       <div className="relative aspect-[3/4] overflow-hidden bg-muted" style={img ? undefined : { background: productHex(p) }}>
         {img && <img src={img} alt={p.title} loading="lazy" width={704} height={944}
           className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />}
