@@ -174,6 +174,8 @@ export type Database = {
       orders: {
         Row: {
           address: string
+          cancel_requested: boolean
+          cod_fee_paise: number
           courier: string | null
           created_at: string
           customer_name: string
@@ -181,9 +183,14 @@ export type Database = {
           id: string
           idempotency_key: string
           order_number: string
+          payment_method: string
           payment_status: string
           phone: string
+          pincode: string
+          shipping_paise: number
           status: Database["public"]["Enums"]["order_status"]
+          subtotal_paise: number
+          tax_paise: number
           total_paise: number
           tracking_number: string | null
           updated_at: string
@@ -191,6 +198,8 @@ export type Database = {
         }
         Insert: {
           address: string
+          cancel_requested?: boolean
+          cod_fee_paise?: number
           courier?: string | null
           created_at?: string
           customer_name: string
@@ -198,9 +207,14 @@ export type Database = {
           id?: string
           idempotency_key: string
           order_number: string
+          payment_method?: string
           payment_status?: string
           phone: string
+          pincode?: string
+          shipping_paise?: number
           status?: Database["public"]["Enums"]["order_status"]
+          subtotal_paise?: number
+          tax_paise?: number
           total_paise: number
           tracking_number?: string | null
           updated_at?: string
@@ -208,6 +222,8 @@ export type Database = {
         }
         Update: {
           address?: string
+          cancel_requested?: boolean
+          cod_fee_paise?: number
           courier?: string | null
           created_at?: string
           customer_name?: string
@@ -215,9 +231,14 @@ export type Database = {
           id?: string
           idempotency_key?: string
           order_number?: string
+          payment_method?: string
           payment_status?: string
           phone?: string
+          pincode?: string
+          shipping_paise?: number
           status?: Database["public"]["Enums"]["order_status"]
+          subtotal_paise?: number
+          tax_paise?: number
           total_paise?: number
           tracking_number?: string | null
           updated_at?: string
@@ -306,6 +327,39 @@ export type Database = {
         }
         Relationships: []
       }
+      store_settings: {
+        Row: {
+          cod_enabled: boolean
+          cod_fee_paise: number
+          cod_max_paise: number
+          free_shipping_min_paise: number
+          id: number
+          shipping_fee_paise: number
+          tax_percent: number
+          updated_at: string
+        }
+        Insert: {
+          cod_enabled?: boolean
+          cod_fee_paise?: number
+          cod_max_paise?: number
+          free_shipping_min_paise?: number
+          id?: number
+          shipping_fee_paise?: number
+          tax_percent?: number
+          updated_at?: string
+        }
+        Update: {
+          cod_enabled?: boolean
+          cod_fee_paise?: number
+          cod_max_paise?: number
+          free_shipping_min_paise?: number
+          id?: number
+          shipping_fee_paise?: number
+          tax_percent?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -326,6 +380,32 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      wishlist_items: {
+        Row: {
+          created_at: string
+          product_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          product_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          product_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wishlist_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -353,13 +433,16 @@ export type Database = {
           p_email: string
           p_idempotency_key: string
           p_name: string
+          p_payment_method: string
           p_phone: string
+          p_pincode: string
         }
         Returns: {
           order_id: string
           order_number: string
         }[]
       }
+      request_cancel: { Args: { p_order_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "customer"
