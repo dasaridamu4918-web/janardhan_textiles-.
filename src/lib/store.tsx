@@ -123,3 +123,50 @@ export const STATUS_LABEL: Record<string, string> = {
   pending: "Pending", confirmed: "Confirmed", packed: "Packed", shipped: "Shipped", delivered: "Delivered", cancelled: "Cancelled",
 };
 export const ORDER_STATUSES = ["pending", "confirmed", "packed", "shipped", "delivered", "cancelled"] as const;
+
+/* ---------------- Settings & totals ---------------- */
+export type StoreSettings = {
+  shipping_fee_paise: number; free_shipping_min_paise: number; tax_percent: number;
+  cod_enabled: boolean; cod_fee_paise: number; cod_max_paise: number;
+};
+export const settingsQuery = {
+  queryKey: ["store_settings"],
+  queryFn: async (): Promise<StoreSettings> => {
+    const { data, error } = await supabase.from("store_settings").select("*").eq("id", 1).single();
+    if (error) throw error;
+    return { ...data, tax_percent: Number(data.tax_percent) } as StoreSettings;
+  },
+};
+export function useSettings() { return useQuery(settingsQuery); }
+/** Preview only — the server recalculates every amount when the order is placed. */
+export function estimateTotals(subtotal: number, s: StoreSettings | undefined, method: "demo" | "cod") {
+  if (!s) return { subtotal, shipping: 0, tax: 0, cod: 0, total: subtotal };
+  const shipping = subtotal >= s.free_shipping_min_paise ? 0 : s.shipping_fee_paise;
+  const tax = Math.round((subtotal * s.tax_percent) / 100);
+  const cod = method === "cod" ? s.cod_fee_paise : 0;
+  return { subtotal, shipping, tax, cod, total: subtotal + shipping + tax + cod };
+}
+
+/* ---------------- Wishlist ---------------- */
+export function useWishlist() {
+  const { user } = useAuth();
+  const qc = useQueryClient();
+  const q = useQuery({
+    queryKey: ["wishlist", user?.id], enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("wishlist_items").select("product_id").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data.map((d) => d.product_id);
+    },
+  });
+  const ids = q.data ?? [];
+  const toggle = async (id: number) => {
+    if (!user) return false;
+    if (ids.includes(id)) await supabase.from("wishlist_items").delete().eq("product_id", id);
+    else await supabase.from("wishlist_items").insert({ user_id: user.id, product_id: id });
+    await qc.invalidateQueries({ queryKey: ["wishlist", user.id] });
+    return true;
+  };
+  return { ids, toggle, signedIn: !!user };
+}
+export const stockLabel = (stock: number) => stock === 0 ? "Sold out" : stock === 1 ? "One of a kind — last piece" : stock <= 3 ? `Only ${stock} left` : "In stock";
