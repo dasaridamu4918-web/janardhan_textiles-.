@@ -26,6 +26,8 @@ export function SiteHeader() {
         <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm uppercase sm:gap-5 tracking-wider">
           <Link to="/" hash="catalog" className="inline-flex min-h-11 items-center hover:text-primary">Shop</Link>
           <Link to="/studio" className="inline-flex min-h-11 items-center hover:text-primary" activeProps={{ className: "text-primary" }}>Studio</Link>
+          {user && <Link to="/orders" className="inline-flex min-h-11 items-center hover:text-primary">Orders</Link>}
+          {user && <Link to="/account" className="inline-flex min-h-11 items-center hover:text-primary">Account</Link>}
           {user ? <button onClick={signOut} className="min-h-11 uppercase hover:text-primary">Sign out</button>
             : <Link to="/auth" search={{ redirect: undefined }} className="inline-flex min-h-11 items-center hover:text-primary">Sign in</Link>}
           <button aria-label="Open bag" onClick={() => setOpen(true)} className="relative inline-flex min-h-11 min-w-11 items-center justify-center">
