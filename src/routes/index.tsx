@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import hero from "@/assets/hero.jpg";
 import reel from "@/assets/reel.mp4.asset.json";
@@ -113,6 +113,7 @@ function Index() {
                 <p className="mt-3 text-xs uppercase tracking-widest">{open.stock > 0 ? `${open.stock} in stock` : "Sold out"}</p>
                 <button disabled={open.stock === 0} onClick={() => { add(open.id); setOpen(null); }}
                   className="mt-6 w-full bg-primary py-3 text-sm uppercase tracking-widest text-primary-foreground disabled:opacity-40">Add to bag</button>
+                <Link to="/saree/$id" params={{ id: String(open.id) }} className="mt-3 flex min-h-11 items-center justify-center text-sm underline">View full details</Link>
               </div>
             </div>
           )}

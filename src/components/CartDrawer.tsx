@@ -40,8 +40,8 @@ export function CartDrawer() {
             <p className="mt-1 text-xs text-muted-foreground">Final total is confirmed at checkout.</p>
             <button
               className="mt-4 w-full bg-primary py-3 text-sm uppercase tracking-widest text-primary-foreground"
-              disabled={!!user} onClick={() => { setOpen(false); navigate({ to: "/auth", search: { redirect: undefined } }); }}
-            >{user ? "Checkout coming soon" : "Sign in to checkout"}</button>
+              onClick={() => { setOpen(false); if (user) navigate({ to: "/checkout" }); else navigate({ to: "/auth", search: { redirect: "/checkout" } }); }}
+            >{user ? "Checkout" : "Sign in to checkout"}</button>
             <Link to="/" hash="catalog" onClick={() => setOpen(false)} className="mt-2 flex min-h-11 items-center justify-center text-xs underline">Continue shopping</Link>
           </div>
         )}
